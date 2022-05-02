@@ -1,6 +1,6 @@
 import {Command} from '@oclif/core'
 import * as inquirer from 'inquirer'
-import {generateTemplateFiles} from 'generate-template-files'
+import {generateTemplateFilesBatch, CaseConverterEnum, IConfigItem} from 'generate-template-files'
 
 export default class Aws extends Command {
   static description = 'Generate AWS Infrastructure template'
@@ -13,6 +13,11 @@ export default class Aws extends Command {
 
   public async run(): Promise<void> {
     const questions = [
+      {
+        type: 'input',
+        name: 'organization',
+        message: "What's your organization name",
+      },
       {
         type: 'list',
         name: 'infrastructureType',
@@ -34,22 +39,25 @@ export default class Aws extends Command {
 
     const prompt : any = await inquirer.prompt(questions)
 
-    console.log(prompt)
-
-    generateTemplateFiles([
+    const items: IConfigItem[] = [
       {
-        option: 'Create Redux Store',
-        defaultCase: '(pascalCase)',
+        option: 'Basic infrastructure (VPC + RDS + LOG + ECS)',
+        defaultCase: CaseConverterEnum.CamelCase,
         entry: {
-          folderPath: './../../templates/aws/',
+          folderPath: './src/templates/aws/',
         },
-        stringReplacers: ['__store__', { question: 'Insert model name', slot: '__model__' }],
+        dynamicReplacers: [
+          {slot: '__organization_name__', slotValue: prompt.organization},
+          {slot: '__terraform_workspace_name__', slotValue: prompt.organization},
+        ],
         output: {
-          path: './src/stores/__store__(lowerCase)',
-          pathAndFileNameDefaultCase: '(kebabCase)',
+          path: './src/template-output/__organization_name__(lowerCase)',
+          pathAndFileNameDefaultCase: CaseConverterEnum.KebabCase,
           overwrite: true,
         },
       },
-    ])
+    ]
+
+    generateTemplateFilesBatch(items)
   }
 }
