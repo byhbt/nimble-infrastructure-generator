@@ -17,6 +17,13 @@ export default class Aws extends Command {
         type: 'input',
         name: 'organization',
         message: "What's your organization name",
+        validate: (answer:any) => {
+          if (!answer) {
+            return 'Please input the organization name'
+          }
+
+          return true
+        },
       },
       {
         type: 'list',
@@ -51,7 +58,7 @@ export default class Aws extends Command {
           {slot: '__terraform_workspace_name__', slotValue: prompt.organization},
         ],
         output: {
-          path: './src/template-output/__organization_name__(lowerCase)',
+          path: './template-output/__organization_name__(lowerCase)',
           pathAndFileNameDefaultCase: CaseConverterEnum.KebabCase,
           overwrite: true,
         },

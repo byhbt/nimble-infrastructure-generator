@@ -5,6 +5,6 @@
 /lib
 /package-lock.json
 /tmp
-/src/template-output/*
+/template-output/*
 node_modules
 oclif.manifest.json
