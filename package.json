@@ -4,7 +4,7 @@
   "description": "Nimble Infrastructure Generator",
   "author": "Nimble team",
   "bin": {
-    "nimble-infrastructure": "./bin/run"
+    "nimble": "./bin/run"
   },
   "homepage": "https://github.com/byhbt/nimble-infrastructure-generator",
   "license": "MIT",
@@ -42,8 +42,8 @@
     "typescript": "^4.4.3"
   },
   "oclif": {
-    "bin": "nimble-infra",
-    "dirname": "nimble-infra",
+    "bin": "nimble",
+    "dirname": "nimble",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
@@ -73,7 +73,7 @@
   },
   "bugs": "https://github.com/byhbt/nimble-infrastructure-generator/issues",
   "keywords": [
-    "oclif"
+    "nimble"
   ],
   "types": "dist/index.d.ts"
 }
